@@ -2,6 +2,8 @@
 #include "WinDefine.h"
 #include<string>
 #include"AncaeusException.h"
+#include"Keyboard.h"
+#include"Mouse.h"
 
 class Window 
 {
@@ -35,18 +37,23 @@ class Window
 		   static WindowClass wndClass;
 		   HINSTANCE hInst;
 	};
-public:Window(int width,int height,const char* name)noexcept;
+public:Window(int width,int height,const char* name);
 	  ~Window();
 	  Window(const Window&) = delete;
 	  Window& operator=(const Window&) = delete;
+	  void SetTitle(const std::string title);
 private:
 	static LRESULT CALLBACK HandleMessageSetup(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam);
 	static LRESULT CALLBACK HandleMessageThunk(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 	LRESULT HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
+public:
+	Keyboard kbd; //键盘输入模块
+	Mouse mouse;  //鼠标输入模块
 private:
 	int width;
 	int height;
 	HWND hWnd;
 };
 
-#define CHWND_EXCEPT(hr) Window::Exception(__LINE__,__FILE__,hr)
+#define ACWND_EXCEPT(hr) Window::Exception(__LINE__,__FILE__,hr)
+#define ACWND_LAST_EXCEPT() Window::Exception(__LINE__,__FILE__,GetLastError())

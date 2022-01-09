@@ -2,7 +2,7 @@
 #include"Window.h"
 #include<string>
 #include<sstream>
-
+/*
 LRESULT CALLBACK WndProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam)
 {
 	switch (msg)
@@ -40,7 +40,7 @@ LRESULT CALLBACK WndProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam)
 	}
 	return DefWindowProc(hWnd,msg,wParam,lParam);
 }
-
+*/
 int CALLBACK WinMain
 (
 	HINSTANCE hInstance,
@@ -51,8 +51,7 @@ int CALLBACK WinMain
 {
 	try 
 	{
-	Window wnd(800,300,"MyFirstDirectX");
-
+	Window wnd(800,600,"MyFirstDirectX"); //创建窗口类
 	//消息处理函数
 	MSG msg;
 	BOOL gResult;
@@ -60,6 +59,30 @@ int CALLBACK WinMain
 	{
 		TranslateMessage(&msg);//处理消息
 		DispatchMessageW(&msg);//将消息发送给处理函数
+		if (wnd.kbd.KeyIsPressed(VK_SPACE)) 
+		{
+			MessageBox(nullptr,"Something Happen!","SpaceWasPressed",MB_OK);
+		}
+		while (!wnd.mouse.IsEmpty()) 
+		{
+			const auto e = wnd.mouse.Read();
+			switch (e.GetType()) 
+			{
+			case Mouse::Event::Type::Enter:
+			case Mouse::Event::Type::Move:			
+			{
+				std::ostringstream oss;
+				oss << "Move to Pos(" << e.GetPosX() << "," << e.GetPosY() << ")";
+				wnd.SetTitle(oss.str());
+				break;
+			}
+			case Mouse::Event::Type::Leave:
+			{
+				wnd.SetTitle("Gone!");
+				break;
+			}
+			}
+		}
 	}
 	
 	if (gResult == -1) 
@@ -71,7 +94,7 @@ int CALLBACK WinMain
 		return msg.wParam; 
 	}
 	}
-	catch (const AncaeusException e) 
+	catch (const AncaeusException& e) //抛出异常
 	{
 		MessageBox(nullptr,e.what(),e.GetType(),MB_OK|MB_ICONEXCLAMATION);
 	}

@@ -144,13 +144,24 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AncaeusException.cpp" />
+    <ClCompile Include="Keyboard.cpp" />
+    <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AncaeusException.h" />
+    <ClInclude Include="Keyboard.h" />
+    <ClInclude Include="Mouse.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="WinDefine.h" />
     <ClInclude Include="Window.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="MyFirstDirectX.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Koishi.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
